@@ -19,6 +19,10 @@ func CreateValidationCode(c *gin.Context) {
 	var body struct {
 		Email string `json:"email" binding:"required,email"`
 	}
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.String(400, "参数错误")
+		return
+	}
 	if err := email.SendValidationCode(body.Email, "123456"); err != nil {
 		log.Println("[SendValidationCode fail]", err)
 		c.String(500, "发送失败")

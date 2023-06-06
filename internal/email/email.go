@@ -2,6 +2,7 @@ package email
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/spf13/viper"
 	"gopkg.in/gomail.v2"
@@ -33,6 +34,7 @@ func Send() {
 }
 
 func SendValidationCode(email, code string) error {
+	log.Println(email)
 	m := newMessage(
 		email,
 		fmt.Sprintf("[%s] 山竹记账验证码", code),

@@ -1,6 +1,7 @@
 package router
 
 import (
+	"mangosteen/config"
 	"mangosteen/internal/controller"
 
 	_ "mangosteen/docs"
@@ -24,6 +25,8 @@ import (
 // @host      localhost:8080
 // @BasePath  /api/v1
 func New() *gin.Engine {
+	config.LoadAppConfig()
+
 	r := gin.Default()
 
 	r.GET("/api/v1/ping", controller.Ping)
