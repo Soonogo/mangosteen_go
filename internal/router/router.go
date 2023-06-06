@@ -3,6 +3,7 @@ package router
 import (
 	"mangosteen/config"
 	"mangosteen/internal/controller"
+	"mangosteen/internal/database"
 
 	_ "mangosteen/docs"
 
@@ -26,7 +27,7 @@ import (
 // @BasePath  /api/v1
 func New() *gin.Engine {
 	config.LoadAppConfig()
-
+	database.Connect()
 	r := gin.Default()
 
 	r.GET("/api/v1/ping", controller.Ping)

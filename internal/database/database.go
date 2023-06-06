@@ -29,6 +29,10 @@ const (
 	dbname   = "mangosteen_dev"
 )
 
+func NewQuery() *queries.Queries {
+	return queries.New(DB)
+
+}
 func Connect() {
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
