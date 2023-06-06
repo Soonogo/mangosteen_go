@@ -15,7 +15,7 @@ func TestPingRoute(t *testing.T) {
 	r := router.New()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/api/v1/validation_code", strings.NewReader(`{"email":"hello"}`))
+	req, _ := http.NewRequest("POST", "/api/v1/validation_code", strings.NewReader(`{"email":"tttsongen@gmail.com"}`))
 	req.Header.Set("Content-Type", "application/json")
 
 	r.ServeHTTP(w, req)
