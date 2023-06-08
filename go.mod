@@ -11,6 +11,7 @@ require (
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.1
+	github.com/test-go/testify v1.1.4
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 )
 
