@@ -28,17 +28,28 @@ func CreateSession(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	jwt, err := jwt_helper.GenerateJWT(1)
+
+	user, err := q.FindUserByEmail(c, reqBody.Email)
+
+	if err != nil {
+		user, err = q.CreateUser(c, reqBody.Email)
+		if err != nil {
+			log.Println("CreateUser fail", err)
+			c.String(http.StatusInternalServerError, "wait a minute")
+			return
+		}
+	}
+
+	jwt, err := jwt_helper.GenerateJWT(int(user.ID))
 	if err != nil {
 		log.Println("GenerateJWT fail", err)
-		c.String(http.StatusInternalServerError, "请稍后再试")
+		c.String(http.StatusInternalServerError, "wait a minute")
 		return
 	}
 
-	respBody := struct {
-		Jwt string `json:"jwt"`
-	}{
-		Jwt: jwt,
+	respBody := gin.H{
+		"jwt":    jwt,
+		"userId": user.ID,
 	}
 	c.JSON(200, respBody)
 }
