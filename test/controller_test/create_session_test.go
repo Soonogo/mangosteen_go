@@ -44,6 +44,7 @@ func TestCreateSession(t *testing.T) {
 	if err := json.Unmarshal(w.Body.Bytes(), &responseBody); err != nil {
 		t.Error("jwt is not a string")
 	}
+	log.Println(w.Body.String())
 
-	assert.Equal(t, 200, w.Code)
+	assert.Equal(t, 2020, w.Code)
 }

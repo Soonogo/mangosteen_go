@@ -1,8 +1,11 @@
 package controller
 
 import (
+	"log"
 	"mangosteen/config/queries"
 	"mangosteen/internal/database"
+	"mangosteen/internal/jwt_helper"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,7 +28,13 @@ func CreateSession(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	jwt := "xxx"
+	jwt, err := jwt_helper.GenerateJWT(1)
+	if err != nil {
+		log.Println("GenerateJWT fail", err)
+		c.String(http.StatusInternalServerError, "请稍后再试")
+		return
+	}
+
 	respBody := struct {
 		Jwt string `json:"jwt"`
 	}{
