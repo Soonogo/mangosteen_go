@@ -11,10 +11,13 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestPingRoute(t *testing.T) {
+	viper.Set("email.smtp.host", "localhost")
+	viper.Set("email.smtp.port", 1025)
 	r := router.New()
 	email := "tttsongen@gmail.com"
 	c := context.Background()
