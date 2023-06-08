@@ -49,7 +49,7 @@ func (q *Queries) CreateValidationCode(ctx context.Context, arg CreateValidation
 }
 
 const findValidationCode = `-- name: FindValidationCode :one
-SELECT id, code, email, used_at, created_at, updated_at FROM validation_codes WHERE email = $1 AND code = $2 AND used_at=null ORDER BY created_at desc LIMIT 1
+SELECT id, code, email, used_at, created_at, updated_at FROM validation_codes WHERE email = $1 AND code = $2 AND used_at is null ORDER BY created_at desc LIMIT 1
 `
 
 type FindValidationCodeParams struct {
