@@ -16,5 +16,5 @@ import (
 // @Failure      500
 // @Router       /ping [get]
 func Ping(c *gin.Context) {
-	c.String(http.StatusOK, "pong2")
+	c.String(http.StatusOK, "pong")
 }
