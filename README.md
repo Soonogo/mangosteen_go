@@ -43,3 +43,10 @@ go build . && ./mangosteen db migrate:down
 # 或者
 migrate -database "postgres://mangosteen:123456@pg-for-go-mangosteen:5432/mangosteen_dev?sslmode=disable" -source "file://$(pwd)/config/migrations" down 1
 ```
+
+
+## 测试覆盖率
+```bash
+go test -coverprofile=coverage.out ./...
+go tool cover -html=coverage.out -o coverarage.html
+```

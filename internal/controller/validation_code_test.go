@@ -1,21 +1,26 @@
-package controller_test
+package controller
 
 import (
 	"context"
+	"mangosteen/config"
 	"mangosteen/internal/database"
-	"mangosteen/internal/router"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestPingRoute(t *testing.T) {
 	// viper.Set("email.smtp.host", "localhost")
 	// viper.Set("email.smtp.port", 1025)
-	r := router.New()
+	r = gin.Default()
+	config.LoadAppConfig()
+	database.Connect()
+	r.POST("/api/v1/validation_code", CreateValidationCode)
+
 	email := "tttsongen@gmail.com"
 	c := context.Background()
 	q := database.NewQuery()
