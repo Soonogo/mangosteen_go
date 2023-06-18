@@ -34,3 +34,14 @@ func getHMACKey() ([]byte, error) {
 	keyPath := viper.GetString("jwt.hmac.key_path")
 	return ioutil.ReadFile(keyPath)
 }
+
+func Parse(jwtStr string) (*jwt.Token, error) {
+	key, err := getHMACKey()
+	if err != nil {
+		return nil, err
+	}
+	return jwt.Parse(jwtStr, func(token *jwt.Token) (interface{}, error) {
+		return key, nil
+	})
+
+}
