@@ -82,6 +82,22 @@ func Run() {
 			if err := exec.Command("go", "tool", "cover", "-html=coverage/cover.out", "-o", "coverage/index.html").Run(); err != nil {
 				log.Fatalln(err)
 			}
+
+			path := "coverage/index.html"
+			file, err := os.OpenFile(path, os.O_WRONLY|os.O_APPEND, 0644)
+			if err != nil {
+				log.Fatalln(err)
+			}
+			defer file.Close()
+			css, err := ioutil.ReadFile("config/coverage.css")
+			if err != nil {
+				log.Fatalln(err)
+			}
+			cssString := string(css)
+			if _, err = file.Write([]byte("\n<style>" + cssString + "</style>")); err != nil {
+				log.Fatalln(err)
+			}
+
 			var port string
 			if len(args) == 0 {
 				port = "8888"
