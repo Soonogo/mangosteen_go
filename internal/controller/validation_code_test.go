@@ -10,12 +10,13 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestPingRoute(t *testing.T) {
-	// viper.Set("email.smtp.host", "localhost")
-	// viper.Set("email.smtp.port", 1025)
+	viper.Set("email.smtp.host", "localhost")
+	viper.Set("email.smtp.port", 1025)
 	r = gin.Default()
 	config.LoadAppConfig()
 	database.Connect()

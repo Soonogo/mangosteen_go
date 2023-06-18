@@ -8,7 +8,9 @@ import (
 	"mangosteen/internal/email"
 	"mangosteen/internal/jwt_helper"
 	"mangosteen/internal/router"
+	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
@@ -68,6 +70,32 @@ func Run() {
 			fmt.Println("HMAC key saved to " + keyPath)
 		},
 	}
+	coverageCmd := &cobra.Command{
+		Use: "coverage",
+		Run: func(cmd *cobra.Command, args []string) {
+			if err := os.MkdirAll("coverage", os.ModePerm); err != nil {
+				log.Fatalln(err)
+			}
+			if err := exec.Command("go", "test", "-coverprofile=coverage/cover.out", "./...").Run(); err != nil {
+				log.Fatalln(err)
+			}
+			if err := exec.Command("go", "tool", "cover", "-html=coverage/cover.out", "-o", "coverage/index.html").Run(); err != nil {
+				log.Fatalln(err)
+			}
+			var port string
+			if len(args) == 0 {
+				port = "8888"
+			} else {
+				port = args[0]
+			}
+			// go http server
+			log.Println("http://localhost:" + port + "/coverage/index.html")
+			if err := http.ListenAndServe(":"+port, http.FileServer(http.Dir("coverage"))); err != nil {
+				log.Panicln(err)
+			}
+
+		},
+	}
 
 	emailCmd := &cobra.Command{
 		Use: "email",
@@ -79,7 +107,7 @@ func Run() {
 	database.Connect()
 	defer database.Close()
 
-	rootCmd.AddCommand(srvCmd, dbCmd, emailCmd, generateHMACKeyCmd)
+	rootCmd.AddCommand(srvCmd, dbCmd, emailCmd, generateHMACKeyCmd, coverageCmd)
 	dbCmd.AddCommand(mgrtCmd, crudCmd, mgrtDownCmd, createMgrtCmd)
 	rootCmd.Execute()
 }
