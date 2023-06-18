@@ -19,14 +19,15 @@ func TestPingRoute(t *testing.T) {
 	r = gin.Default()
 	config.LoadAppConfig()
 	database.Connect()
-	r.POST("/api/v1/validation_code", CreateValidationCode)
+	vc := ValidationCodeController{}
+	vc.RegisterRoutes(r.Group("/api"))
 
 	email := "tttsongen@gmail.com"
 	c := context.Background()
 	q := database.NewQuery()
 	count1, _ := q.CountValidationCodes(c, email)
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/api/v1/validation_code", strings.NewReader(`{"email":"`+email+`"}`))
+	req, _ := http.NewRequest("POST", "/api/v1/validation_codes", strings.NewReader(`{"email":"`+email+`"}`))
 	req.Header.Set("Content-Type", "application/json")
 
 	r.ServeHTTP(w, req)

@@ -30,9 +30,15 @@ func New() *gin.Engine {
 	database.Connect()
 	r := gin.Default()
 
+	api := r.Group("/api")
+
+	sc := controller.SessionController{}
+	sc.RegisterRoutes(api)
+
+	vc := controller.ValidationCodeController{}
+	vc.RegisterRoutes(api)
+
 	r.GET("/ping", controller.Ping)
-	r.POST("/api/v1/validation_code", controller.CreateValidationCode)
-	r.POST("/api/v1/session", controller.CreateSession)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return r
