@@ -1,9 +1,42 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "Swagger 2.0 Standard API doc",
+        "title": "Mangosteen API",
+        "contact": {
+            "name": "null",
+            "url": "https://songen.me",
+            "email": "songen@foxmail.com"
+        }
     },
+    "host": "localhost:8080",
+    "basePath": "/",
     "paths": {
+        "/api/v1/me": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取当前用户",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.GetMeResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "get string by ID",
@@ -27,5 +60,47 @@
                 }
             }
         }
+    },
+    "definitions": {
+        "api.GetMeResponse": {
+            "type": "object",
+            "properties": {
+                "resource": {
+                    "$ref": "#/definitions/queries.User"
+                }
+            }
+        },
+        "queries.User": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth(JWT)": {
+            "type": "basic"
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
     }
 }

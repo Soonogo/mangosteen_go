@@ -1,6 +1,53 @@
+basePath: /
+definitions:
+  api.GetMeResponse:
+    properties:
+      resource:
+        $ref: '#/definitions/queries.User'
+    type: object
+  queries.User:
+    properties:
+      address:
+        type: string
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      phone:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
 info:
-  contact: {}
+  contact:
+    email: songen@foxmail.com
+    name: "null"
+    url: https://songen.me
+  description: Swagger 2.0 Standard API doc
+  title: Mangosteen API
 paths:
+  /api/v1/me:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.GetMeResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      summary: 获取当前用户
   /ping:
     get:
       consumes:
@@ -16,4 +63,7 @@ paths:
       summary: Show an account
       tags:
       - ping
+securityDefinitions:
+  BasicAuth(JWT):
+    type: basic
 swagger: "2.0"

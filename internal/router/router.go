@@ -12,19 +12,19 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
 )
 
-// @title           Swagger Example API
-// @version         1.0
-// @description     This is a sample server celler server.
+//	@title			Swagger Example API
+//	@version		1.0
+//	@description	This is a sample server celler server.
 
-// @contact.name   API Support
-// @contact.url    http://www.swagger.io/support
-// @contact.email  support@swagger.io
+//	@contact.name	API Support
+//	@contact.url	http://www.swagger.io/support
+//	@contact.email	support@swagger.io
 
-// @license.name  Apache 2.0
-// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      localhost:8080
-// @BasePath  /api/v1
+//	@host		localhost:8080
+//	@BasePath	/api/v1
 
 func loadController() []controller.Controller {
 	return []controller.Controller{
