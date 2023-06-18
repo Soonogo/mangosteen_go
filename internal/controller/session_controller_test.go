@@ -1,12 +1,9 @@
 package controller
 
 import (
-	"context"
 	"encoding/json"
 	"log"
-	"mangosteen/config"
 	"mangosteen/config/queries"
-	"mangosteen/internal/database"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -16,31 +13,8 @@ import (
 	"github.com/test-go/testify/assert"
 )
 
-var (
-	r *gin.Engine
-	q *queries.Queries
-	c context.Context
-)
-
-func setupTest(t *testing.T) func(t *testing.T) {
-	r = gin.Default()
-	config.LoadAppConfig()
-	database.Connect()
-	sc := SessionController{}
-	sc.RegisterRoutes(r.Group("/api"))
-	q = database.NewQuery()
-	c = context.Background()
-	if err := q.DeleteAllUsers(c); err != nil {
-		t.Fatal(err)
-	}
-	return func(t *testing.T) {
-		database.Close()
-	}
-
-}
-
 func TestCreateSession(t *testing.T) {
-	teardownTest := setupTest(t)
+	teardownTest := SetupTestCase(t)
 	defer teardownTest(t)
 	w := httptest.NewRecorder()
 
