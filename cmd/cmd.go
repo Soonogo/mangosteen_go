@@ -76,6 +76,9 @@ func Run() {
 			if err := os.MkdirAll("coverage", os.ModePerm); err != nil {
 				log.Fatalln(err)
 			}
+			if err := exec.Command("MailHog").Start(); err != nil {
+				log.Println(err)
+			}
 			if err := exec.Command("go", "test", "-coverprofile=coverage/cover.out", "./...").Run(); err != nil {
 				log.Fatalln(err)
 			}
@@ -106,7 +109,7 @@ func Run() {
 			}
 			// go http server
 			log.Println("http://localhost:" + port + "/coverage/index.html")
-			if err := http.ListenAndServe(":"+port, http.FileServer(http.Dir("coverage"))); err != nil {
+			if err := http.ListenAndServe(":"+port, http.FileServer(http.Dir("."))); err != nil {
 				log.Panicln(err)
 			}
 
