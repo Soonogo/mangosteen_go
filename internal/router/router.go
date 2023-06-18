@@ -30,6 +30,7 @@ func loadController() []controller.Controller {
 	return []controller.Controller{
 		&controller.SessionController{},
 		&controller.ValidationCodeController{},
+		&controller.MeController{},
 	}
 }
 func New() *gin.Engine {

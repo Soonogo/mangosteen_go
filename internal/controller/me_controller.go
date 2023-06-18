@@ -4,7 +4,6 @@ import (
 	"mangosteen/internal/database"
 	"mangosteen/internal/jwt_helper"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -19,6 +18,10 @@ func (ctrl *MeController) RegisterRoutes(rg *gin.RouterGroup) {
 
 func (ctrl *MeController) Get(c *gin.Context) {
 	auth := c.GetHeader("Authorization")
+	if len(auth) < 8 {
+		c.String(401, "unauthorized")
+		return
+	}
 	jwtString := auth[7:]
 	t, err := jwt_helper.Parse(jwtString)
 	if err != nil {
@@ -30,13 +33,13 @@ func (ctrl *MeController) Get(c *gin.Context) {
 		c.String(401, "unauthorized")
 		return
 	}
-	userID, ok := m["user_id"].(string)
+	userID, ok := m["user_id"].(float64)
 	if !ok {
 		c.String(401, "unauthorized")
 		return
 
 	}
-	userIDInt, err := strconv.Atoi(userID)
+	userIDInt := int32(userID)
 	if err != nil {
 		c.String(401, "无效的JWT")
 		return
