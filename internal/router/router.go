@@ -25,6 +25,13 @@ import (
 
 // @host      localhost:8080
 // @BasePath  /api/v1
+
+func loadController() []controller.Controller {
+	return []controller.Controller{
+		&controller.SessionController{},
+		&controller.ValidationCodeController{},
+	}
+}
 func New() *gin.Engine {
 	config.LoadAppConfig()
 	database.Connect()
@@ -32,11 +39,9 @@ func New() *gin.Engine {
 
 	api := r.Group("/api")
 
-	sc := controller.SessionController{}
-	sc.RegisterRoutes(api)
-
-	vc := controller.ValidationCodeController{}
-	vc.RegisterRoutes(api)
+	for _, c := range loadController() {
+		c.RegisterRoutes(api)
+	}
 
 	r.GET("/ping", controller.Ping)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
