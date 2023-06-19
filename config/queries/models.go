@@ -25,4 +25,4 @@ type ValidationCode struct {
 	UsedAt    sql.NullTime `json:"used_at"`
 	CreatedAt time.Time    `json:"created_at"`
 	UpdatedAt time.Time    `json:"updated_at"`
-}
+}	
