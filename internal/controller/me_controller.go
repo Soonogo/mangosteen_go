@@ -11,7 +11,7 @@ type MeController struct{}
 
 func (ctrl *MeController) RegisterRoutes(rg *gin.RouterGroup) {
 	v1 := rg.Group("/v1")
-	v1.GET("me", ctrl.Get)
+	v1.GET("/me", ctrl.Get)
 }
 
 // GetMe godoc

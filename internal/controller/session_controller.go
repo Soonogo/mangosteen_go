@@ -15,10 +15,11 @@ type SessionController struct {
 
 func (ctrl *SessionController) RegisterRoutes(rg *gin.RouterGroup) {
 	v1 := rg.Group("/v1")
-	v1.POST("session", ctrl.Create)
+	v1.POST("/session", ctrl.Create)
 }
 
 func (ctrl *SessionController) Create(c *gin.Context) {
+	log.Println(111)
 	var reqBody struct {
 		Email string `json:"email"`
 		Code  string `json:"code"`

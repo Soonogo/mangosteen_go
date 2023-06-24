@@ -1,10 +1,8 @@
 package router
 
 import (
-	"mangosteen/config"
+	"mangosteen/internal"
 	"mangosteen/internal/controller"
-	"mangosteen/internal/database"
-	"mangosteen/internal/middleware"
 
 	_ "mangosteen/docs"
 
@@ -36,11 +34,8 @@ func loadController() []controller.Controller {
 	}
 }
 func New() *gin.Engine {
-	config.LoadAppConfig()
-	database.Connect()
 	r := gin.Default()
-	r.Use(middleware.Me())
-
+	internal.InitRouter(r)
 	api := r.Group("/api")
 
 	for _, c := range loadController() {

@@ -17,8 +17,10 @@ func TestCreateSession(t *testing.T) {
 	teardownTest := SetupTestCase(t)
 	defer teardownTest(t)
 	w := httptest.NewRecorder()
+	sc := SessionController{}
+	sc.RegisterRoutes(r.Group("/api"))
 
-	email := "1@qq.com"
+	email := "12@qq.com"
 	code := "1234"
 	if _, err := q.CreateValidationCode(c, queries.CreateValidationCodeParams{
 		Email: email, Code: code,
@@ -34,9 +36,9 @@ func TestCreateSession(t *testing.T) {
 		"email": email,
 		"code":  code,
 	}
+	log.Println(x)
 	bytes, _ := json.Marshal(x)
 	req, _ := http.NewRequest("POST", "/api/v1/session", strings.NewReader(string(bytes)))
-	req.Header.Set("Content-Type", "application/json")
 
 	r.ServeHTTP(w, req)
 	log.Println(w.Body)
@@ -44,6 +46,7 @@ func TestCreateSession(t *testing.T) {
 		JWT    string `json:"jwt"`
 		UserId int32  `json:"userId"`
 	}
+	log.Println(&responseBody)
 	if err := json.Unmarshal(w.Body.Bytes(), &responseBody); err != nil {
 		t.Error("jwt is not a string")
 	}

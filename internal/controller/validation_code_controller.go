@@ -14,7 +14,7 @@ type ValidationCodeController struct{}
 
 func (ctrl *ValidationCodeController) RegisterRoutes(rg *gin.RouterGroup) {
 	v1 := rg.Group("/v1")
-	v1.POST("validation_codes", ctrl.Create)
+	v1.POST("/validation_codes", ctrl.Create)
 }
 
 func (ctrl *ValidationCodeController) Create(c *gin.Context) {

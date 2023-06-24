@@ -10,8 +10,15 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func Me() gin.HandlerFunc {
+func Me(whiteList []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		path := c.Request.URL.Path
+		index := indexOf(whiteList, path)
+
+		if index != -1 {
+			c.Next()
+			return
+		}
 		user, err := getMe(c)
 		if err != nil {
 			c.String(401, "unauthorized")
@@ -58,4 +65,13 @@ func getMe(c *gin.Context) (queries.User, error) {
 		return user, errors.New("unauthorized")
 	}
 	return user, nil
+}
+
+func indexOf(slice []string, s string) int {
+	for i, v := range slice {
+		if v == s {
+			return i
+		}
+	}
+	return -1
 }
