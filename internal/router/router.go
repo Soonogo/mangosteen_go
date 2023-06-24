@@ -4,6 +4,7 @@ import (
 	"mangosteen/config"
 	"mangosteen/internal/controller"
 	"mangosteen/internal/database"
+	"mangosteen/internal/middleware"
 
 	_ "mangosteen/docs"
 
@@ -38,6 +39,7 @@ func New() *gin.Engine {
 	config.LoadAppConfig()
 	database.Connect()
 	r := gin.Default()
+	r.Use(middleware.Me())
 
 	api := r.Group("/api")
 
