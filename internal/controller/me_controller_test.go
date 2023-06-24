@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"log"
 	"mangosteen/internal/jwt_helper"
 	"net/http"
 	"net/http/httptest"
@@ -32,7 +33,7 @@ func TestGetMeWithJWT(t *testing.T) {
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/api/v1/me", strings.NewReader(""))
 
-	u, err := q.CreateUser(c, "1@qq.com")
+	u, err := q.CreateUser(c, "11@qq.com")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -43,7 +44,7 @@ func TestGetMeWithJWT(t *testing.T) {
 	req.Header = http.Header{
 		"Authorization": []string{"Bearer " + jwtString},
 	}
-
+	log.Println(req.Header)
 	r.ServeHTTP(w, req)
 	assert.Equal(t, 200, w.Code)
 
