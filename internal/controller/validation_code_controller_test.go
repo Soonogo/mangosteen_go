@@ -2,7 +2,6 @@ package controller
 
 import (
 	"context"
-	"mangosteen/config"
 	"mangosteen/internal/database"
 	"net/http"
 	"net/http/httptest"
@@ -18,8 +17,10 @@ func TestPingRoute(t *testing.T) {
 	viper.Set("email.smtp.host", "localhost")
 	viper.Set("email.smtp.port", 1025)
 	r = gin.Default()
-	config.LoadAppConfig()
-	database.Connect()
+
+	teardownTest := SetupTestCase(t)
+	defer teardownTest(t)
+
 	vc := ValidationCodeController{}
 	vc.RegisterRoutes(r.Group("/api"))
 
