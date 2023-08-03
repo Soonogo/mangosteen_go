@@ -9,7 +9,6 @@ import (
 	"math/rand"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
 	"time"
 
@@ -77,16 +76,16 @@ func CreateMigration(filename string) {
 }
 func Migrate() {
 	dir, err := os.Getwd()
-	name := filepath.Base(dir)
+	// name := filepath.Base(dir)
+	// for strings.Contains(name, "mangosteen") {
 
-	for strings.Contains(name, "mangosteen") {
-		log.Println("222")
+	// 	// dir = filepath.Dir(dir)
 
-		dir = filepath.Dir(dir)
-		name = filepath.Base(dir)
-	}
+	// 	name = filepath.Base(dir)
+	// }
 
 	if err != nil {
+
 		log.Fatalln(err)
 	}
 	m, err := migrate.New(
